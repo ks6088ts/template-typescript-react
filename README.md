@@ -10,6 +10,61 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
+## Application Insights telemetry
+
+This template includes optional [Application Insights](https://learn.microsoft.com/azure/azure-monitor/app/javascript-sdk) RUM telemetry. When enabled it tracks page views, route transitions, unhandled exceptions, and custom events.
+
+### Enabling telemetry
+
+1. Copy `.env.template` to `.env.local`:
+
+   ```sh
+   cp .env.template .env.local
+   ```
+
+2. Set `VITE_APPLICATIONINSIGHTS_CONNECTION_STRING` to your Azure Application Insights connection string:
+
+   ```dotenv
+   VITE_APPLICATIONINSIGHTS_CONNECTION_STRING=InstrumentationKey=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx;IngestionEndpoint=https://...;
+   ```
+
+3. Restart the dev server (`pnpm dev`) or rebuild (`pnpm build`).
+
+When the variable is **empty or not set**, the telemetry layer is completely disabled — no SDK code is loaded and no network requests are sent.
+
+### Architecture
+
+The telemetry layer follows a port & adapter pattern so that the UI never imports `@microsoft/applicationinsights-web` directly:
+
+```
+src/telemetry/
+  TelemetryService.ts          # Port (interface)
+  config.ts                    # Reads env var; exports isTelemetryEnabled
+  createTelemetry.ts           # Factory — dynamically imports AppInsights only when enabled
+  providers/
+    AppInsightsProvider.ts     # Adapter — wraps @microsoft/applicationinsights-web
+    NoopProvider.ts            # No-op implementation used when telemetry is disabled
+  react/
+    TelemetryProvider.tsx      # React Context Provider + AppInsightsErrorBoundary wrapper
+    hooks.ts                   # useTelemetry() hook
+```
+
+### Tracking custom events
+
+```tsx
+import { useTelemetry } from './telemetry/react/hooks'
+
+function MyComponent() {
+  const telemetry = useTelemetry()
+
+  return (
+    <button onClick={() => telemetry.trackEvent('my_event', { key: 'value' })}>
+      Click me
+    </button>
+  )
+}
+```
+
 ## React Compiler
 
 The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
