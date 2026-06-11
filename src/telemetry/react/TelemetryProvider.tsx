@@ -1,5 +1,4 @@
-import { type ReactNode } from 'react';
-import { AppInsightsErrorBoundary } from '@microsoft/applicationinsights-react-js';
+import { type ReactNode, lazy, Suspense } from 'react';
 import type { ReactPlugin } from '@microsoft/applicationinsights-react-js';
 import type { TelemetryService } from '../TelemetryService';
 import { TelemetryContextProvider } from './hooks';
@@ -9,6 +8,12 @@ interface TelemetryProviderProps {
   reactPlugin?: ReactPlugin;
   children: ReactNode;
 }
+
+const AppInsightsErrorBoundaryWrapper = lazy(() =>
+  import('@microsoft/applicationinsights-react-js').then((mod) => ({
+    default: mod.AppInsightsErrorBoundary,
+  })),
+);
 
 function ErrorFallback() {
   return <h1>An error occurred. Please refresh the page.</h1>;
@@ -27,12 +32,14 @@ export function TelemetryProvider({
 
   if (reactPlugin) {
     return (
-      <AppInsightsErrorBoundary
-        onError={ErrorFallback}
-        appInsights={reactPlugin}
-      >
-        {content}
-      </AppInsightsErrorBoundary>
+      <Suspense fallback={content}>
+        <AppInsightsErrorBoundaryWrapper
+          onError={ErrorFallback}
+          appInsights={reactPlugin}
+        >
+          {content}
+        </AppInsightsErrorBoundaryWrapper>
+      </Suspense>
     );
   }
 

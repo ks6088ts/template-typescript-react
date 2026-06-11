@@ -4,13 +4,17 @@ import './index.css'
 import App from './App.tsx'
 import { createTelemetry, TelemetryProvider } from './telemetry'
 
-const { service, reactPlugin } = createTelemetry()
-service.initialize()
+async function bootstrap() {
+  const { service, reactPlugin } = await createTelemetry()
+  service.initialize()
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <TelemetryProvider service={service} reactPlugin={reactPlugin}>
-      <App />
-    </TelemetryProvider>
-  </StrictMode>,
-)
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <TelemetryProvider service={service} reactPlugin={reactPlugin}>
+        <App />
+      </TelemetryProvider>
+    </StrictMode>,
+  )
+}
+
+bootstrap()
