@@ -14,6 +14,16 @@ Currently, two official plugins are available:
 
 The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
+## Application Insights Telemetry (Optional)
+
+This template supports conditional frontend telemetry with Application Insights.
+
+1. Copy `.env.template` to `.env.local`
+2. Set `VITE_APPLICATIONINSIGHTS_CONNECTION_STRING` in `.env.local`
+3. Run `pnpm dev` or `pnpm build`
+
+If `VITE_APPLICATIONINSIGHTS_CONNECTION_STRING` is empty or unset, telemetry stays fully disabled (no-op), and no Application Insights SDK initialization or ingestion requests are executed.
+
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
