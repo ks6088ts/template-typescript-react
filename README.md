@@ -1,4 +1,5 @@
 [![test](https://github.com/ks6088ts/template-typescript-react/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/test.yaml?query=branch%3Amain)
+[![github-pages](https://github.com/ks6088ts/template-typescript-react/actions/workflows/github-pages.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/github-pages.yaml?query=branch%3Amain)
 
 # React + TypeScript + Vite
 

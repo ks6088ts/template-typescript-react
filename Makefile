@@ -15,7 +15,7 @@ install-deps-dev: ## install dependencies for development
 	@which actionlint || echo "install actionlint https://github.com/rhysd/actionlint"
 	@# https://pnpm.io/installation
 	@which pnpm || npm install -g pnpm
-	pnpm install
+	pnpm install --frozen-lockfile
 
 .PHONY: lint
 lint: ## lint
