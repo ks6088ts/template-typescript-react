@@ -3,9 +3,19 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
+import { useTelemetry } from './telemetry'
 
 function App() {
   const [count, setCount] = useState(0)
+  const telemetry = useTelemetry()
+
+  const handleClick = () => {
+    setCount((c) => c + 1)
+    telemetry.trackEvent({
+      name: 'counter_clicked',
+      properties: { count: String(count + 1) },
+    })
+  }
 
   return (
     <>
@@ -24,7 +34,7 @@ function App() {
         <button
           type="button"
           className="counter"
-          onClick={() => setCount((count) => count + 1)}
+          onClick={handleClick}
         >
           Count is {count}
         </button>
