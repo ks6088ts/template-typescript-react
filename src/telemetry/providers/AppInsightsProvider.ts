@@ -23,11 +23,11 @@ export function createAppInsightsWrapper(
     return React.createElement(
       AppInsightsContext.Provider,
       { value: reactPlugin },
-      React.createElement(
-        AppInsightsErrorBoundary,
-        { appInsights: reactPlugin, onError: ErrorFallback, children },
+      React.createElement(AppInsightsErrorBoundary, {
+        appInsights: reactPlugin,
+        onError: ErrorFallback,
         children,
-      ),
+      }),
     )
   }
 }
