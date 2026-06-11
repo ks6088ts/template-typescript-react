@@ -2,10 +2,12 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
+import { useTrackEvent } from './telemetry/react/hooks'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const trackEvent = useTrackEvent()
 
   return (
     <>
@@ -24,7 +26,19 @@ function App() {
         <button
           type="button"
           className="counter"
-          onClick={() => setCount((count) => count + 1)}
+          onClick={() => {
+            const nextCount = count + 1
+            setCount(nextCount)
+            trackEvent(
+              'counter_button_clicked',
+              {
+                component: 'App',
+              },
+              {
+                nextCount,
+              },
+            )
+          }}
         >
           Count is {count}
         </button>
