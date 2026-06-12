@@ -14,15 +14,34 @@ Currently, two official plugins are available:
 
 The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Application Insights Telemetry (Optional)
+## Frontend Telemetry (Optional)
 
-This template supports conditional frontend telemetry with Application Insights.
+This template supports conditional frontend telemetry with Application Insights and OpenTelemetry (OTLP/HTTP).
 
 1. Copy `.env.template` to `.env.local`
-2. Set `VITE_APPLICATIONINSIGHTS_CONNECTION_STRING` in `.env.local`
+2. Configure one or both providers in `.env.local`
+   - `VITE_APPLICATIONINSIGHTS_CONNECTION_STRING` for Application Insights
+   - `VITE_OTEL_EXPORTER_OTLP_ENDPOINT` for OpenTelemetry Collector (example: `http://localhost:4318`)
+   - `VITE_OTEL_SERVICE_NAME` (optional, default: `template-typescript-react`)
 3. Run `pnpm dev` or `pnpm build`
 
-If `VITE_APPLICATIONINSIGHTS_CONNECTION_STRING` is empty or unset, telemetry stays fully disabled (no-op), and no Application Insights SDK initialization or ingestion requests are executed.
+If both provider settings are set, telemetry is sent to both providers. If all provider settings are empty, telemetry stays fully disabled (no-op).
+
+### Local OpenTelemetry visualization (Collector + Grafana LGTM)
+
+1. Start local observability stack:
+   ```bash
+   docker compose -f docker/compose.yaml up
+   ```
+2. Configure `.env.local`:
+   ```bash
+   VITE_OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
+   VITE_OTEL_SERVICE_NAME=template-typescript-react
+   ```
+3. Start the app (`pnpm dev`) and interact with the UI
+4. Open Grafana at `http://localhost:3000`
+
+The default collector config allows CORS from `http://localhost:5173` so browser OTLP/HTTP exports work in Vite dev mode.
 
 ## Expanding the ESLint configuration
 
