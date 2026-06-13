@@ -130,7 +130,7 @@ src/                 # React app source
   __tests__/e2e/     # Vitest browser E2E tests
 playwright/          # Playwright smoke tests
 docker/              # OTel Collector + Grafana LGTM stack
- Dockerfile         # Production nginx image for built SPA assets
+  Dockerfile        # Production nginx image for built SPA assets
 docs/                # Detailed documentation
 .github/workflows/   # CI/CD pipelines
 ```
