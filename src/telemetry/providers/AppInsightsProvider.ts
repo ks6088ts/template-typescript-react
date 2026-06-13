@@ -3,8 +3,8 @@ import {
   ReactPlugin,
 } from '@microsoft/applicationinsights-react-js'
 import { ApplicationInsights } from '@microsoft/applicationinsights-web'
-import { Fragment, createElement } from 'react'
 import type { ComponentType, ReactNode } from 'react'
+import { createElement, Fragment } from 'react'
 
 import type {
   TelemetryMeasurements,
@@ -61,7 +61,11 @@ export class AppInsightsTelemetryProvider implements TelemetryService {
     this.appInsights?.trackPageView({ name, uri })
   }
 
-  trackMetric(name: string, average: number, properties?: TelemetryProperties): void {
+  trackMetric(
+    name: string,
+    average: number,
+    properties?: TelemetryProperties,
+  ): void {
     this.appInsights?.trackMetric({ name, average }, properties)
   }
 
@@ -70,7 +74,11 @@ export class AppInsightsTelemetryProvider implements TelemetryService {
     accountId?: string,
     storeInCookie?: boolean,
   ): void {
-    this.appInsights?.setAuthenticatedUserContext(userId, accountId, storeInCookie)
+    this.appInsights?.setAuthenticatedUserContext(
+      userId,
+      accountId,
+      storeInCookie,
+    )
   }
 
   clearAuthenticatedUser(): void {
@@ -86,13 +94,10 @@ export class AppInsightsTelemetryProvider implements TelemetryService {
       ? () => createElement(Fragment, null, fallback)
       : DefaultErrorComponent
 
-    return createElement(
-      AppInsightsErrorBoundary,
-      {
-        appInsights: this.reactPlugin,
-        onError,
-        children,
-      },
-    )
+    return createElement(AppInsightsErrorBoundary, {
+      appInsights: this.reactPlugin,
+      onError,
+      children,
+    })
   }
 }

@@ -4,9 +4,9 @@ import {
   isTelemetryEnabled,
   telemetryConfig,
 } from './config'
-import type { TelemetryService } from './TelemetryService'
 import { CompositeTelemetryProvider } from './providers/CompositeProvider'
 import { NoopTelemetryProvider } from './providers/NoopProvider'
+import type { TelemetryService } from './TelemetryService'
 
 export async function createTelemetry(): Promise<TelemetryService> {
   if (!isTelemetryEnabled) {

@@ -10,7 +10,7 @@ This document explains **what** each technology in this template is, **why** it 
 | UI library | [React 19](#react-19) | Declarative component-based UI |
 | Build tool | [Vite](#vite) | Dev server (HMR) and production bundler |
 | Package manager | [pnpm](#pnpm) | Fast, disk-efficient dependency management |
-| Linting | [ESLint](#eslint) | Static analysis and code-style enforcement |
+| Linting / formatting | [Biome](#biome) | Static analysis and code formatting |
 | Unit / browser tests | [Vitest (browser mode)](#vitest-browser-mode) | Component and integration tests in a real browser |
 | E2E tests | [Playwright](#playwright) | End-to-end smoke tests against the built app |
 | Observability | [OpenTelemetry](#opentelemetry) / [Application Insights](#application-insights) | Optional frontend telemetry |
@@ -47,12 +47,12 @@ This document explains **what** each technology in this template is, **why** it 
 - **Why adopted:** Faster installs and significantly lower disk usage than npm/yarn, plus a strict `node_modules` layout that prevents accidental reliance on undeclared (phantom) dependencies.
 - **Where:** [package.json](../package.json), `pnpm-lock.yaml`. CI pins the pnpm version for reproducible installs.
 
-## ESLint
+## Biome
 
-- **What:** A pluggable static-analysis tool for finding and fixing problems in JavaScript/TypeScript.
-- **Why adopted:** Enforces consistent style and catches common mistakes (including React Hooks rules) before code review. Combined with `actionlint`, both app code and CI workflows are linted.
-- **Extending it:** For production apps you can enable type-aware rules — see [ESLint configuration](./eslint.md).
-- **Where:** [eslint.config.js](../eslint.config.js).
+- **What:** A fast formatter and linter for JavaScript/TypeScript and related web files.
+- **Why adopted:** Consolidates linting and formatting into one tool, keeps the code style consistent, and speeds up both local checks and CI. Combined with `actionlint`, both app code and CI workflows are linted.
+- **Customizing it:** See [Using Biome](./biome.md) for formatter, linter, and override examples.
+- **Where:** [biome.json](../biome.json), [package.json](../package.json).
 
 ## Vitest (browser mode)
 

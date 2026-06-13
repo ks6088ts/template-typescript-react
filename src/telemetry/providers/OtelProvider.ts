@@ -1,8 +1,8 @@
 import {
   type Attributes,
   type Histogram,
-  SpanStatusCode,
   metrics,
+  SpanStatusCode,
   trace,
 } from '@opentelemetry/api'
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http'
@@ -12,7 +12,10 @@ import {
   MeterProvider,
   PeriodicExportingMetricReader,
 } from '@opentelemetry/sdk-metrics'
-import { BatchSpanProcessor, WebTracerProvider } from '@opentelemetry/sdk-trace-web'
+import {
+  BatchSpanProcessor,
+  WebTracerProvider,
+} from '@opentelemetry/sdk-trace-web'
 import type { ReactNode } from 'react'
 
 import type {
@@ -65,7 +68,9 @@ export class OtelTelemetryProvider implements TelemetryService {
       resource,
       readers: [
         new PeriodicExportingMetricReader({
-          exporter: new OTLPMetricExporter({ url: `${this.endpoint}/v1/metrics` }),
+          exporter: new OTLPMetricExporter({
+            url: `${this.endpoint}/v1/metrics`,
+          }),
         }),
       ],
     })
@@ -93,7 +98,10 @@ export class OtelTelemetryProvider implements TelemetryService {
     const activeSpan = trace.getActiveSpan()
     if (activeSpan) {
       activeSpan.recordException(error)
-      activeSpan.setStatus({ code: SpanStatusCode.ERROR, message: error.message })
+      activeSpan.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error.message,
+      })
       return
     }
 
@@ -115,7 +123,11 @@ export class OtelTelemetryProvider implements TelemetryService {
     span.end()
   }
 
-  trackMetric(name: string, average: number, properties?: TelemetryProperties): void {
+  trackMetric(
+    name: string,
+    average: number,
+    properties?: TelemetryProperties,
+  ): void {
     const histogram = this.getOrCreateHistogram(name)
     histogram.record(average, this.toAttributes(properties))
   }

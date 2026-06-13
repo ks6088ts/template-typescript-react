@@ -7,7 +7,7 @@ Detailed documentation for the `template-typescript-react` template. Start with 
 - [Tech Stack](./tech-stack.md) — overview of each adopted technology, its purpose, and the rationale for adoption.
 - [Frontend Telemetry](./telemetry.md) — optional Application Insights / OpenTelemetry setup and local Grafana visualization.
 - [E2E Testing](./e2e-testing.md) — the Vitest browser and Playwright suites, headless/headed modes, and CI.
-- [Expanding the ESLint Configuration](./eslint.md) — enabling type-aware and React-specific lint rules.
+- [Using Biome](./biome.md) — linting, formatting, and customization guidance.
 
 ## Scaffolding reference
 

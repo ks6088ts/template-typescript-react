@@ -26,7 +26,7 @@ install-deps-e2e: install-deps-dev ## install dependencies for E2E tests
 
 .PHONY: lint
 lint: ## lint
-	pnpm lint
+	pnpm check
 	pnpm audit
 	actionlint
 

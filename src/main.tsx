@@ -2,10 +2,10 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
-import type { TelemetryService } from './telemetry/TelemetryService'
 import { createTelemetry } from './telemetry/createTelemetry'
 import { NoopTelemetryProvider } from './telemetry/providers/NoopProvider'
 import { TelemetryProvider } from './telemetry/react/TelemetryProvider'
+import type { TelemetryService } from './telemetry/TelemetryService'
 
 async function bootstrap() {
   let telemetry: TelemetryService
@@ -16,7 +16,12 @@ async function bootstrap() {
     telemetry = new NoopTelemetryProvider()
   }
 
-  createRoot(document.getElementById('root')!).render(
+  const rootElement = document.getElementById('root')
+  if (!rootElement) {
+    throw new Error('Root element not found')
+  }
+
+  createRoot(rootElement).render(
     <StrictMode>
       <TelemetryProvider telemetry={telemetry}>
         <App />
