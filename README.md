@@ -54,6 +54,7 @@ Install the Playwright browser bundle once, then run the browser-backed Vitest s
 ```bash
 pnpm exec playwright install chromium
 pnpm e2e
+# or run only the standalone Playwright smoke suite
 pnpm exec playwright test
 pnpm exec playwright show-report
 ```
