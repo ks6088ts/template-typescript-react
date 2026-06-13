@@ -1,8 +1,12 @@
 [![test](https://github.com/ks6088ts/template-typescript-react/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/test.yaml?query=branch%3Amain)
 [![e2e-test](https://github.com/ks6088ts/template-typescript-react/actions/workflows/e2e-test.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/e2e-test.yaml?query=branch%3Amain)
+[![docker](https://github.com/ks6088ts/template-typescript-react/actions/workflows/docker.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/docker.yaml?query=branch%3Amain)
+[![ghcr](https://github.com/ks6088ts/template-typescript-react/actions/workflows/ghcr-release.yaml/badge.svg)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/ghcr-release.yaml)
+[![docker-release](https://github.com/ks6088ts/template-typescript-react/actions/workflows/docker-release.yaml/badge.svg)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/docker-release.yaml)
 [![github-pages](https://github.com/ks6088ts/template-typescript-react/actions/workflows/github-pages.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/github-pages.yaml?query=branch%3Amain)
 [![release](https://github.com/ks6088ts/template-typescript-react/actions/workflows/release.yaml/badge.svg)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/release.yaml)
 [![GitHub release](https://img.shields.io/github/v/release/ks6088ts/template-typescript-react?logo=github&label=release)](https://github.com/ks6088ts/template-typescript-react/releases/latest)
+[![Docker Hub](https://img.shields.io/docker/v/ks6088ts/template-typescript-react?logo=docker&label=Docker%20Hub&sort=semver)](https://hub.docker.com/r/ks6088ts/template-typescript-react)
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
@@ -72,6 +76,49 @@ pnpm format
 
 A `Makefile` wraps common workflows — run `make help` to list targets (e.g. `make ci-test`, `make e2e`, `make ci-test-e2e`).
 
+## Docker
+
+Build and run the production nginx image locally:
+
+```bash
+# Build the production image
+make docker-build
+
+# Run the container (http://localhost:8080)
+make docker-run
+```
+
+You can also start the same image with Docker Compose:
+
+```bash
+docker compose -f docker/compose.yaml up --build web
+```
+
+For Docker-focused CI checks, run:
+
+```bash
+make ci-test-docker
+```
+
+### Published images
+
+Pushing a `v*` tag keeps the existing release asset flow and also publishes multi-arch (`linux/amd64`, `linux/arm64`) images to both registries:
+
+| Registry | Image | Workflow |
+| --- | --- | --- |
+| GitHub Container Registry | `ghcr.io/ks6088ts/template-typescript-react` | [ghcr-release.yaml](.github/workflows/ghcr-release.yaml) |
+| Docker Hub | `ks6088ts/template-typescript-react` | [docker-release.yaml](.github/workflows/docker-release.yaml) |
+
+```bash
+# Pull and run from GitHub Container Registry
+docker run --rm -p 8080:80 ghcr.io/ks6088ts/template-typescript-react:latest
+
+# Pull and run from Docker Hub
+docker run --rm -p 8080:80 ks6088ts/template-typescript-react:latest
+```
+
+The Docker Hub workflow requires two repository secrets: `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` (a Docker Hub access token).
+
 ## Testing
 
 Two E2E suites run headless by default — Vitest browser mode and Playwright:
@@ -102,6 +149,7 @@ src/                 # React app source
   __tests__/e2e/     # Vitest browser E2E tests
 playwright/          # Playwright smoke tests
 docker/              # OTel Collector + Grafana LGTM stack
+  Dockerfile        # Production nginx image for built SPA assets
 docs/                # Detailed documentation
 .github/workflows/   # CI/CD pipelines
 ```
