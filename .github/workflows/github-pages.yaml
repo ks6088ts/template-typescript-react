@@ -40,6 +40,10 @@ jobs:
 
       - name: Build
         run: make build
+        env:
+          # GitHub Pages serves this project from a sub-path, so override the
+          # default relative base with the project site path.
+          VITE_BASE: /template-typescript-react/
 
       - name: Setup Pages
         uses: actions/configure-pages@v6

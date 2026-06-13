@@ -1,6 +1,8 @@
 import { defineConfig } from '@playwright/test'
 
-const baseURL = 'http://127.0.0.1:4173/template-typescript-react/'
+// Matches the default relative base ('./') in vite.config.ts, so `vite preview`
+// serves the build at the server root.
+const baseURL = 'http://127.0.0.1:4173/'
 
 // Run browsers headless by default. Set E2E_HEADED=true to watch the browser UI.
 const headless = process.env.E2E_HEADED !== 'true'
