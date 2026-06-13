@@ -61,9 +61,14 @@ function App() {
               </a>
             </li>
             <li>
-              <a href="https://react.dev/" target="_blank" rel="noopener">
+              <a
+                href="https://react.dev/"
+                target="_blank"
+                rel="noopener"
+                aria-label="Learn more about React"
+              >
                 <img className="button-icon" src={reactLogo} alt="" />
-                Learn React
+                Learn more
               </a>
             </li>
           </ul>
