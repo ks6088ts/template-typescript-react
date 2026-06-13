@@ -1,131 +1,102 @@
 [![test](https://github.com/ks6088ts/template-typescript-react/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/test.yaml?query=branch%3Amain)
+[![e2e-test](https://github.com/ks6088ts/template-typescript-react/actions/workflows/e2e-test.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/e2e-test.yaml?query=branch%3Amain)
 [![github-pages](https://github.com/ks6088ts/template-typescript-react/actions/workflows/github-pages.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/github-pages.yaml?query=branch%3Amain)
+
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-6E9F18?logo=vitest&logoColor=white)
+![Playwright](https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white)
+![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?logo=eslint&logoColor=white)
+![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-425CC7?logo=opentelemetry&logoColor=white)
 
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A starter template for building React single-page apps with TypeScript and Vite — including linting, a two-tier E2E test setup, optional frontend telemetry, and CI/CD to GitHub Pages.
 
-Currently, two official plugins are available:
+**Live demo:** <https://ks6088ts.github.io/template-typescript-react/>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- ⚡️ **Vite** dev server with HMR and optimized production builds
+- ⚛️ **React 19** + **TypeScript**
+- 🧹 **ESLint** for static analysis (plus `actionlint` for workflows)
+- 🧪 **Vitest** (browser mode) + **Playwright** E2E suites
+- 📊 Optional **OpenTelemetry** / **Application Insights** frontend telemetry
+- 🐳 Local **Grafana LGTM** observability stack via Docker Compose
+- 🚀 **GitHub Actions** CI/CD with **GitHub Pages** deployment
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech stack
 
-## Frontend Telemetry (Optional)
+| Technology | Role |
+| --- | --- |
+| [TypeScript](https://www.typescriptlang.org/) | Static typing |
+| [React 19](https://react.dev/) | UI library |
+| [Vite](https://vite.dev/) | Build tool & dev server |
+| [pnpm](https://pnpm.io/) | Package manager |
+| [ESLint](https://eslint.org/) | Linting |
+| [Vitest](https://vitest.dev/) (browser mode) | Component / integration tests |
+| [Playwright](https://playwright.dev/) | E2E smoke tests |
+| [OpenTelemetry](https://opentelemetry.io/) / [Application Insights](https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview) | Optional telemetry |
+| [Docker Compose](https://docs.docker.com/compose/) + [Grafana LGTM](https://github.com/grafana/docker-otel-lgtm) | Local observability |
+| [GitHub Actions](https://docs.github.com/actions) / [GitHub Pages](https://pages.github.com/) | CI/CD & hosting |
 
-This template supports conditional frontend telemetry with Application Insights and OpenTelemetry (OTLP/HTTP).
+See [docs/tech-stack.md](docs/tech-stack.md) for an overview of each technology, its purpose, and the rationale for adoption.
 
-1. Copy `.env.template` to `.env.local`
-2. Configure one or both providers in `.env.local`
-   - `VITE_APPLICATIONINSIGHTS_CONNECTION_STRING` for Application Insights
-   - `VITE_OTEL_EXPORTER_OTLP_ENDPOINT` for OpenTelemetry Collector (example: `http://localhost:4318`)
-   - `VITE_OTEL_SERVICE_NAME` (optional, default: `template-typescript-react`)
-3. Run `pnpm dev` or `pnpm build`
+## Quick start
 
-If both provider settings are set, telemetry is sent to both providers. If all provider settings are empty, telemetry stays fully disabled (no-op).
+Prerequisites: [Node.js](https://nodejs.org/) and [pnpm](https://pnpm.io/installation).
 
-### Local OpenTelemetry visualization (Collector + Grafana LGTM)
+```bash
+# Install dependencies
+pnpm install
 
-1. Start local observability stack:
+# Start the dev server (http://localhost:5173)
+pnpm dev
 
-   ```bash
-   docker compose -f docker/compose.yaml up
-   ```
+# Build for production
+pnpm build
 
-2. Configure `.env.local`:
+# Preview the production build
+pnpm preview
 
-   ```bash
-   VITE_OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
-   VITE_OTEL_SERVICE_NAME=template-typescript-react
-   ```
-
-3. Start the app (`pnpm dev`) and interact with the UI
-4. Open Grafana at `http://localhost:3000`
-
-The default collector config allows CORS from `http://localhost:5173` so browser OTLP/HTTP exports work in Vite dev mode.
-
-#### Pre-provisioned Grafana dashboard
-
-A ready-to-use dashboard, **Frontend Telemetry (template-typescript-react)**, is automatically imported into Grafana on startup (it is also set as the Grafana home dashboard). It visualizes the app's spans using Tempo span metrics and the raw traces:
-
-- Span rate, error rate, p95 latency, and total span count
-- Span rate by name (`counter_button_clicked`, `document_load`, `page_view`, ...)
-- Span latency percentiles (p50/p95/p99) and error span rate by name
-- Top spans by count and a list of recent traces (Tempo)
-
-Use the `Service` variable at the top to filter by `service.name` (defaults to all services).
-
-The dashboard is provisioned by mounting these files into the `lgtm` container (see [docker/compose.yaml](docker/compose.yaml)):
-
-- [docker/grafana/provisioning/dashboards.yaml](docker/grafana/provisioning/dashboards.yaml) — dashboard provider config
-- [docker/grafana/dashboards/](docker/grafana/dashboards/) — dashboard JSON files
-
-OpenTelemetry Collector config is also organized under a dedicated directory:
-
-- [docker/otel-collector/config.yaml](docker/otel-collector/config.yaml) — Collector receiver/exporter/pipeline config
-
-To add your own dashboard, drop another `*.json` file into [docker/grafana/dashboards/](docker/grafana/dashboards/) and restart the stack.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Lint
+pnpm lint
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+A `Makefile` wraps common workflows — run `make help` to list targets (e.g. `make ci-test`, `make e2e`, `make ci-test-e2e`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Testing
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Two E2E suites run headless by default — Vitest browser mode and Playwright:
+
+```bash
+pnpm exec playwright install chromium
+pnpm e2e
+```
+
+Set `E2E_HEADED=true` to watch the browser UI. See [docs/e2e-testing.md](docs/e2e-testing.md) for details.
+
+## Telemetry
+
+Frontend telemetry is optional and opt-in via environment variables, supporting Application Insights and OpenTelemetry with a local Grafana stack. It is a no-op when unconfigured. See [docs/telemetry.md](docs/telemetry.md).
+
+## Documentation
+
+- [Tech Stack](docs/tech-stack.md) — adopted technologies, purpose, and rationale
+- [Frontend Telemetry](docs/telemetry.md) — Application Insights / OpenTelemetry setup
+- [E2E Testing](docs/e2e-testing.md) — Vitest browser & Playwright suites
+- [Expanding the ESLint Configuration](docs/eslint.md) — type-aware & React lint rules
+
+## Project structure
+
+```text
+src/                 # React app source
+  telemetry/         # Telemetry providers, config, and React bindings
+  __tests__/e2e/     # Vitest browser E2E tests
+playwright/          # Playwright smoke tests
+docker/              # OTel Collector + Grafana LGTM stack
+docs/                # Detailed documentation
+.github/workflows/   # CI/CD pipelines
 ```
