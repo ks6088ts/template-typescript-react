@@ -30,18 +30,40 @@ If both provider settings are set, telemetry is sent to both providers. If all p
 ### Local OpenTelemetry visualization (Collector + Grafana LGTM)
 
 1. Start local observability stack:
+
    ```bash
    docker compose -f docker/compose.yaml up
    ```
+
 2. Configure `.env.local`:
+
    ```bash
    VITE_OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
    VITE_OTEL_SERVICE_NAME=template-typescript-react
    ```
+
 3. Start the app (`pnpm dev`) and interact with the UI
 4. Open Grafana at `http://localhost:3000`
 
 The default collector config allows CORS from `http://localhost:5173` so browser OTLP/HTTP exports work in Vite dev mode.
+
+#### Pre-provisioned Grafana dashboard
+
+A ready-to-use dashboard, **Frontend Telemetry (template-typescript-react)**, is automatically imported into Grafana on startup (it is also set as the Grafana home dashboard). It visualizes the app's spans using Tempo span metrics and the raw traces:
+
+- Span rate, error rate, p95 latency, and total span count
+- Span rate by name (`counter_button_clicked`, `document_load`, `page_view`, ...)
+- Span latency percentiles (p50/p95/p99) and error span rate by name
+- Top spans by count and a list of recent traces (Tempo)
+
+Use the `Service` variable at the top to filter by `service.name` (defaults to all services).
+
+The dashboard is provisioned by mounting these files into the `lgtm` container (see [docker/compose.yaml](docker/compose.yaml)):
+
+- [docker/grafana/provisioning/dashboards.yaml](docker/grafana/provisioning/dashboards.yaml) — dashboard provider config
+- [docker/grafana/dashboards/](docker/grafana/dashboards/) — dashboard JSON files
+
+To add your own dashboard, drop another `*.json` file into [docker/grafana/dashboards/](docker/grafana/dashboards/) and restart the stack.
 
 ## Expanding the ESLint configuration
 
