@@ -47,6 +47,17 @@ If both provider settings are set, telemetry is sent to both providers. If all p
 
 The default collector config allows CORS from `http://localhost:5173` so browser OTLP/HTTP exports work in Vite dev mode.
 
+## E2E testing
+
+Install the Playwright browser bundle once, then run the browser-backed Vitest suite and the Playwright smoke test:
+
+```bash
+pnpm exec playwright install chromium
+pnpm e2e
+pnpm exec playwright test
+pnpm exec playwright show-report
+```
+
 #### Pre-provisioned Grafana dashboard
 
 A ready-to-use dashboard, **Frontend Telemetry (template-typescript-react)**, is automatically imported into Grafana on startup (it is also set as the Grafana home dashboard). It visualizes the app's spans using Tempo span metrics and the raw traces:
