@@ -1,5 +1,11 @@
-import { isTelemetryEnabled, telemetryConfig } from './config'
+import {
+  isAppInsightsEnabled,
+  isOtelEnabled,
+  isTelemetryEnabled,
+  telemetryConfig,
+} from './config'
 import type { TelemetryService } from './TelemetryService'
+import { CompositeTelemetryProvider } from './providers/CompositeProvider'
 import { NoopTelemetryProvider } from './providers/NoopProvider'
 
 export async function createTelemetry(): Promise<TelemetryService> {
@@ -7,11 +13,34 @@ export async function createTelemetry(): Promise<TelemetryService> {
     return new NoopTelemetryProvider()
   }
 
-  const { AppInsightsTelemetryProvider } = await import(
-    './providers/AppInsightsProvider'
-  )
+  const providers: TelemetryService[] = []
 
-  return new AppInsightsTelemetryProvider({
-    connectionString: telemetryConfig.applicationInsightsConnectionString,
-  })
+  if (isAppInsightsEnabled) {
+    const { AppInsightsTelemetryProvider } = await import(
+      './providers/AppInsightsProvider'
+    )
+
+    providers.push(
+      new AppInsightsTelemetryProvider({
+        connectionString: telemetryConfig.applicationInsightsConnectionString,
+      }),
+    )
+  }
+
+  if (isOtelEnabled) {
+    const { OtelTelemetryProvider } = await import('./providers/OtelProvider')
+
+    providers.push(
+      new OtelTelemetryProvider({
+        endpoint: telemetryConfig.otelExporterOtlpEndpoint,
+        serviceName: telemetryConfig.otelServiceName,
+      }),
+    )
+  }
+
+  if (providers.length === 1) {
+    return providers[0]
+  }
+
+  return new CompositeTelemetryProvider({ providers })
 }
