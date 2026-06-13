@@ -63,6 +63,10 @@ The dashboard is provisioned by mounting these files into the `lgtm` container (
 - [docker/grafana/provisioning/dashboards.yaml](docker/grafana/provisioning/dashboards.yaml) — dashboard provider config
 - [docker/grafana/dashboards/](docker/grafana/dashboards/) — dashboard JSON files
 
+OpenTelemetry Collector config is also organized under a dedicated directory:
+
+- [docker/otel-collector/config.yaml](docker/otel-collector/config.yaml) — Collector receiver/exporter/pipeline config
+
 To add your own dashboard, drop another `*.json` file into [docker/grafana/dashboards/](docker/grafana/dashboards/) and restart the stack.
 
 ## Expanding the ESLint configuration
