@@ -34,6 +34,10 @@ lint: ## lint
 build: ## build applications
 	pnpm build
 
+.PHONY: format
+format: ## format code
+	pnpm format
+
 .PHONY: ci-test
 ci-test: install-deps-dev lint build ## run CI test
 
