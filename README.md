@@ -1,6 +1,8 @@
 [![test](https://github.com/ks6088ts/template-typescript-react/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/test.yaml?query=branch%3Amain)
 [![e2e-test](https://github.com/ks6088ts/template-typescript-react/actions/workflows/e2e-test.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/e2e-test.yaml?query=branch%3Amain)
 [![github-pages](https://github.com/ks6088ts/template-typescript-react/actions/workflows/github-pages.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/github-pages.yaml?query=branch%3Amain)
+[![release](https://github.com/ks6088ts/template-typescript-react/actions/workflows/release.yaml/badge.svg)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/release.yaml)
+[![GitHub release](https://img.shields.io/github/v/release/ks6088ts/template-typescript-react?logo=github&label=release)](https://github.com/ks6088ts/template-typescript-react/releases/latest)
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
