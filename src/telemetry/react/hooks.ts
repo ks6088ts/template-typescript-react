@@ -1,6 +1,9 @@
 import { useCallback } from 'react'
 
-import type { TelemetryMeasurements, TelemetryProperties } from '../TelemetryService'
+import type {
+  TelemetryMeasurements,
+  TelemetryProperties,
+} from '../TelemetryService'
 import { useTelemetry } from './context'
 
 export function useTrackEvent() {

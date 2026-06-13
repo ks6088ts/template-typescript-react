@@ -8,12 +8,12 @@
 ![Vitest](https://img.shields.io/badge/Vitest-6E9F18?logo=vitest&logoColor=white)
 ![Playwright](https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white)
 ![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white)
-![ESLint](https://img.shields.io/badge/ESLint-4B32C3?logo=eslint&logoColor=white)
+![Biome](https://img.shields.io/badge/Biome-60A5FA?logo=biome&logoColor=white)
 ![OpenTelemetry](https://img.shields.io/badge/OpenTelemetry-425CC7?logo=opentelemetry&logoColor=white)
 
 # React + TypeScript + Vite
 
-A starter template for building React single-page apps with TypeScript and Vite — including linting, a two-tier E2E test setup, optional frontend telemetry, and CI/CD to GitHub Pages.
+A starter template for building React single-page apps with TypeScript and Vite — including Biome-based linting/formatting, a two-tier E2E test setup, optional frontend telemetry, and CI/CD to GitHub Pages.
 
 **Live demo:** <https://ks6088ts.github.io/template-typescript-react/>
 
@@ -21,7 +21,7 @@ A starter template for building React single-page apps with TypeScript and Vite 
 
 - ⚡️ **Vite** dev server with HMR and optimized production builds
 - ⚛️ **React 19** + **TypeScript**
-- 🧹 **ESLint** for static analysis (plus `actionlint` for workflows)
+- 🧹 **Biome** for linting and formatting (plus `actionlint` for workflows)
 - 🧪 **Vitest** (browser mode) + **Playwright** E2E suites
 - 📊 Optional **OpenTelemetry** / **Application Insights** frontend telemetry
 - 🐳 Local **Grafana LGTM** observability stack via Docker Compose
@@ -35,7 +35,7 @@ A starter template for building React single-page apps with TypeScript and Vite 
 | [React 19](https://react.dev/) | UI library |
 | [Vite](https://vite.dev/) | Build tool & dev server |
 | [pnpm](https://pnpm.io/) | Package manager |
-| [ESLint](https://eslint.org/) | Linting |
+| [Biome](https://biomejs.dev/) | Linting and formatting |
 | [Vitest](https://vitest.dev/) (browser mode) | Component / integration tests |
 | [Playwright](https://playwright.dev/) | E2E smoke tests |
 | [OpenTelemetry](https://opentelemetry.io/) / [Application Insights](https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview) | Optional telemetry |
@@ -63,6 +63,9 @@ pnpm preview
 
 # Lint
 pnpm lint
+
+# Format
+pnpm format
 ```
 
 A `Makefile` wraps common workflows — run `make help` to list targets (e.g. `make ci-test`, `make e2e`, `make ci-test-e2e`).
@@ -87,7 +90,7 @@ Frontend telemetry is optional and opt-in via environment variables, supporting 
 - [Tech Stack](docs/tech-stack.md) — adopted technologies, purpose, and rationale
 - [Frontend Telemetry](docs/telemetry.md) — Application Insights / OpenTelemetry setup
 - [E2E Testing](docs/e2e-testing.md) — Vitest browser & Playwright suites
-- [Expanding the ESLint Configuration](docs/eslint.md) — type-aware & React lint rules
+- [Using Biome](docs/biome.md) — linting, formatting, and customization
 
 ## Project structure
 

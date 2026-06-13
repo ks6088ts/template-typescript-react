@@ -12,7 +12,11 @@ export interface TelemetryService {
   ): void
   trackException(error: Error, properties?: TelemetryProperties): void
   trackPageView(name?: string, uri?: string): void
-  trackMetric(name: string, average: number, properties?: TelemetryProperties): void
+  trackMetric(
+    name: string,
+    average: number,
+    properties?: TelemetryProperties,
+  ): void
   setAuthenticatedUser(
     userId: string,
     accountId?: string,

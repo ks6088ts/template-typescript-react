@@ -18,7 +18,9 @@ export class CompositeTelemetryProvider implements TelemetryService {
   }
 
   async initialize(): Promise<void> {
-    await Promise.all(this.providers.map(async provider => provider.initialize()))
+    await Promise.all(
+      this.providers.map(async (provider) => provider.initialize()),
+    )
   }
 
   trackEvent(
@@ -26,25 +28,29 @@ export class CompositeTelemetryProvider implements TelemetryService {
     properties?: TelemetryProperties,
     measurements?: TelemetryMeasurements,
   ): void {
-    this.providers.forEach(provider => {
+    this.providers.forEach((provider) => {
       provider.trackEvent(name, properties, measurements)
     })
   }
 
   trackException(error: Error, properties?: TelemetryProperties): void {
-    this.providers.forEach(provider => {
+    this.providers.forEach((provider) => {
       provider.trackException(error, properties)
     })
   }
 
   trackPageView(name?: string, uri?: string): void {
-    this.providers.forEach(provider => {
+    this.providers.forEach((provider) => {
       provider.trackPageView(name, uri)
     })
   }
 
-  trackMetric(name: string, average: number, properties?: TelemetryProperties): void {
-    this.providers.forEach(provider => {
+  trackMetric(
+    name: string,
+    average: number,
+    properties?: TelemetryProperties,
+  ): void {
+    this.providers.forEach((provider) => {
       provider.trackMetric(name, average, properties)
     })
   }
@@ -54,13 +60,13 @@ export class CompositeTelemetryProvider implements TelemetryService {
     accountId?: string,
     storeInCookie?: boolean,
   ): void {
-    this.providers.forEach(provider => {
+    this.providers.forEach((provider) => {
       provider.setAuthenticatedUser(userId, accountId, storeInCookie)
     })
   }
 
   clearAuthenticatedUser(): void {
-    this.providers.forEach(provider => {
+    this.providers.forEach((provider) => {
       provider.clearAuthenticatedUser()
     })
   }

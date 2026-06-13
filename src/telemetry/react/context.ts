@@ -1,7 +1,6 @@
 import { createContext, useContext } from 'react'
-
-import type { TelemetryService } from '../TelemetryService'
 import { NoopTelemetryProvider } from '../providers/NoopProvider'
+import type { TelemetryService } from '../TelemetryService'
 
 export const TelemetryContext = createContext<TelemetryService>(
   new NoopTelemetryProvider(),

@@ -26,13 +26,17 @@ install-deps-e2e: install-deps-dev ## install dependencies for E2E tests
 
 .PHONY: lint
 lint: ## lint
-	pnpm lint
+	pnpm check
 	pnpm audit
 	actionlint
 
 .PHONY: build
 build: ## build applications
 	pnpm build
+
+.PHONY: format
+format: ## format code
+	pnpm format
 
 .PHONY: ci-test
 ci-test: install-deps-dev lint build ## run CI test

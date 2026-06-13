@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
-import { page } from 'vitest/browser'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { page } from 'vitest/browser'
 
 const telemetryMocks = vi.hoisted(() => {
   const telemetry = {
@@ -29,7 +29,7 @@ describe('App bootstrap', () => {
     document.body.innerHTML = '<div id="root"></div>'
     vi.resetModules()
     telemetryMocks.createTelemetry.mockClear()
-    Object.values(telemetryMocks.telemetry).forEach(mock => {
+    Object.values(telemetryMocks.telemetry).forEach((mock) => {
       mock.mockClear()
     })
   })
@@ -42,9 +42,9 @@ describe('App bootstrap', () => {
       expect(telemetryMocks.telemetry.initialize).toHaveBeenCalledTimes(1)
     })
 
-    await expect.element(
-      page.getByRole('heading', { name: 'Get started' }),
-    ).toBeInTheDocument()
+    await expect
+      .element(page.getByRole('heading', { name: 'Get started' }))
+      .toBeInTheDocument()
 
     await page.getByRole('button', { name: 'Count is 0' }).click()
 
