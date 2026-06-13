@@ -59,3 +59,35 @@ preview: ## preview production build
 .PHONY: update
 update: ## update dependencies
 	pnpm update --latest
+
+# ---
+# Docker
+# ---
+DOCKER_REPO_NAME ?= ks6088ts
+DOCKER_IMAGE_NAME ?= template-typescript-react
+DOCKER_FILE ?= docker/Dockerfile
+TRIVY_VERSION ?= 0.69.3
+
+.PHONY: docker-build
+docker-build: ## build Docker image
+	docker build -f $(DOCKER_FILE) \
+		-t $(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME):$(GIT_TAG) \
+		--build-arg GIT_REVISION=$(GIT_REVISION) \
+		--build-arg GIT_TAG=$(GIT_TAG) \
+		.
+
+.PHONY: docker-run
+docker-run: ## run Docker container (serves on http://localhost:8080)
+	docker run --rm -p 8080:80 $(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME):$(GIT_TAG)
+
+.PHONY: docker-lint
+docker-lint: ## lint Dockerfile
+	docker run --rm -i hadolint/hadolint < $(DOCKER_FILE)
+
+.PHONY: docker-scan
+docker-scan: ## scan Docker image
+	@which trivy || curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b $(TOOLS_DIR) v$(TRIVY_VERSION)
+	trivy image $(DOCKER_REPO_NAME)/$(DOCKER_IMAGE_NAME):$(GIT_TAG)
+
+.PHONY: ci-test-docker
+ci-test-docker: docker-lint docker-build docker-scan ## run CI test for Docker (build only, no run)

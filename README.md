@@ -1,5 +1,7 @@
 [![test](https://github.com/ks6088ts/template-typescript-react/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/test.yaml?query=branch%3Amain)
 [![e2e-test](https://github.com/ks6088ts/template-typescript-react/actions/workflows/e2e-test.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/e2e-test.yaml?query=branch%3Amain)
+[![docker](https://github.com/ks6088ts/template-typescript-react/actions/workflows/docker.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/docker.yaml?query=branch%3Amain)
+[![ghcr](https://github.com/ks6088ts/template-typescript-react/actions/workflows/ghcr-release.yaml/badge.svg)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/ghcr-release.yaml)
 [![github-pages](https://github.com/ks6088ts/template-typescript-react/actions/workflows/github-pages.yaml/badge.svg?branch=main)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/github-pages.yaml?query=branch%3Amain)
 [![release](https://github.com/ks6088ts/template-typescript-react/actions/workflows/release.yaml/badge.svg)](https://github.com/ks6088ts/template-typescript-react/actions/workflows/release.yaml)
 [![GitHub release](https://img.shields.io/github/v/release/ks6088ts/template-typescript-react?logo=github&label=release)](https://github.com/ks6088ts/template-typescript-react/releases/latest)
@@ -72,6 +74,32 @@ pnpm format
 
 A `Makefile` wraps common workflows — run `make help` to list targets (e.g. `make ci-test`, `make e2e`, `make ci-test-e2e`).
 
+## Docker
+
+Build and run the production nginx image locally:
+
+```bash
+# Build the production image
+make docker-build
+
+# Run the container (http://localhost:8080)
+make docker-run
+```
+
+You can also start the same image with Docker Compose:
+
+```bash
+docker compose -f docker/compose.yaml up --build web
+```
+
+For Docker-focused CI checks, run:
+
+```bash
+make ci-test-docker
+```
+
+Pushing a `v*` tag keeps the existing release asset flow and also publishes a multi-arch image to `ghcr.io/ks6088ts/template-typescript-react`.
+
 ## Testing
 
 Two E2E suites run headless by default — Vitest browser mode and Playwright:
@@ -102,6 +130,7 @@ src/                 # React app source
   __tests__/e2e/     # Vitest browser E2E tests
 playwright/          # Playwright smoke tests
 docker/              # OTel Collector + Grafana LGTM stack
+ Dockerfile         # Production nginx image for built SPA assets
 docs/                # Detailed documentation
 .github/workflows/   # CI/CD pipelines
 ```
